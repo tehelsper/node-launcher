@@ -14,7 +14,7 @@ from node_launcher.constants import (
     IS_WINDOWS)
 
 
-class TestBitcoinConfiguration(object):
+class TestBitcoin(object):
     @staticmethod
     def test_configuration_path_no_directory():
         with TemporaryDirectory() as tmpdirname:
@@ -88,3 +88,4 @@ class TestBitcoinConfiguration(object):
         bitcoin.bitcoin_qt = MagicMock(return_value=command)
         result = bitcoin.launch()
         assert result.pid
+
