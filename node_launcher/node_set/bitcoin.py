@@ -4,7 +4,8 @@ from tempfile import NamedTemporaryFile
 from typing import Optional, List
 
 import psutil
-from PySide2.QtCore import QProcess
+from PySide2.QtCore import QProcess, QByteArray, Signal
+from PySide2.QtWidgets import QErrorMessage
 from psutil import AccessDenied, ZombieProcess
 
 from node_launcher.services.bitcoin_software import BitcoinSoftware
@@ -22,6 +23,7 @@ class Bitcoin(QProcess):
     software: BitcoinSoftware
     zmq_block_port: int
     zmq_tx_port: int
+    state_change = Signal(str)
 
     def __init__(self, network: str, configuration_file_path: str):
         super().__init__()
@@ -232,7 +234,6 @@ class Bitcoin(QProcess):
             result = Popen(command, close_fds=True, shell=False)
 
         return result
-
 
     def handle_error(self):
         output: QByteArray = self.readAllStandardError()
